@@ -1,0 +1,235 @@
+<!DOCTYPE HTML>
+<!--
+	Twenty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>The Questions</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+		<link rel="stylesheet" href="assets/css/legend.css" />
+
+		<script type="text/javascript" src="js"></script>
+		<script type="text/javascript" src="legend.js"></script>
+		<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+
+		<style>
+	    #legend {
+			line-height: 0px;
+			background: white;
+			opacity: 0.8;
+			padding:5px 25px 5px 0px;
+		}
+		</style>
+
+
+
+	</head>
+
+	<body class="no-sidebar is-preload">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<header id="header">
+					<h1 id="logo"><a href="index.html">Shelter and Location <span>Home</span></a></h1>
+					<nav id="nav">
+						<ul>
+							<li class="current"><a href="single.html">The Issues</a></li>
+							<li class="current"><a href="third.html">The Reasons</a></li>
+							<li class="current"><a href="quad.html">A Solution</a></li>
+						</ul>
+					</nav>
+
+
+
+						</ul>
+					</nav>
+				</header>
+
+			<!-- Main -->
+				<article id="main">
+
+					<header class="special container">
+						<a class="icon solid fa-building" href="index.html" ></a>
+						<h2><strong>The Questions</strong></h2>
+						<h3><strong>Can we fix this?</strong></h3>
+					</header>
+
+					<!-- One -->
+						<section class="wrapper style4 container">
+							<div id="map" style="height: 700px"></div>
+
+
+							<!-- Content -->
+								<div class="content">
+									<section>
+										<a href="#" class="image featured"><img src="" alt="" /></a>
+										<header>
+											<h2><b>City Owned Properties</h2>
+										</header>
+										<h3><b>This map shows us the locations of most of the city controlled or Seattle Housing Authority controlled low-income housing locations. Many locations controlled by both organizations contain less than 4 units, and those locations were removed from this analysis for privacy.</h3>
+
+											<h3> The blue areas indicate the 1/2 walking distance from each light rail station, to show the amount of housing available in these catchments. We see large clusterings of housing at the Capitol Hill and International District stations, while the hinterland neighborhoods of Rainier Beach and Northgate possess very little. </b></h3>
+											<h3><strong>Why aren't developers taking advantage of cheaper real estate with sustainable transportation infrastrucure by it? Have the hinterland communities stymied growth in their neighborhoods, either intentionally or inadvertently? Are there other unmovable forces at play that have deterred economic investment in these communites with 20 minute commutes to downtown?</strong> </h3>
+
+											<ul class="buttons">
+												<li><a href="third.html" class="button primary">Next Page</a></li>
+
+											</ul>
+									</section>
+								</div>
+
+						</section>
+
+					<!-- Two -->
+
+
+				</article>
+
+			<!-- Footer -->
+				<footer id="footer">
+
+					<ul class="icons">
+						<li><a href="https://www.linkedin.com/in/alan-foote?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BhbYH8qjxTcCbVr8kYtxesQ%3D%3D" class="icon brands circle fa-linkedin-in" style="font-size:48px" aria-hidden="FALSE"><span class="label">LinkedIn</span></a><li>
+						<li><a href="https://github.com/alanfoote" class="icon brands circle fa-github"><span class="label">Github</span></a></li>
+						<li><a href="contact.html" class="fa-solid fa-album-collection"><span class="label">Contact</span></a></li>
+					</ul>
+
+					<ul class="copyright">
+						<li>&copy; Shelter and Location</li><li>Design: Alan Foote and <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+
+				</footer>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollgress.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			<script src="data/catchments.js"></script>
+			<script src="data/lih_points.js"></script>
+			<script src="js/legend.js"></script>
+
+			<script>
+				let mymap = L.map('map',{
+					minZoom: 12,
+					maxZoom: 18
+				}).setView([47.6062, -122.3321], 12);
+				let basemap = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}{r}.png', {
+					attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+				}).addTo(mymap);
+
+
+				var geojsonMarkerOptions = {
+				    radius: 5,
+				    fillColor: "#b2182b",
+				    color: "#000",
+				    weight: .5,
+				    opacity: 1,
+				    fillOpacity: 1
+				};
+
+				var lihLayer = L.geoJson(lih, {
+    pointToLayer: function (feature, latlng) {
+        return L.circleMarker(latlng, geojsonMarkerOptions);
+    }
+}).addTo(mymap);
+
+function onEachFeature(feature, layer) {
+		// does this feature have a property named popupContent?
+		if (feature.properties && feature.properties.UNITS) {
+				layer.bindPopup(feature.properties.UNITS);
+		}
+}
+				// var zonesLayer = L.geoJson(zones,{
+				// 	    style: function(feature){
+				// 			return{ color: "blue", weight: .5, fillColor:
+				// 			"blue", fillOpacity: .5}
+				// 		},
+				// 		onEachFeature: function(feature, layer){
+				// 			layer.bindPopup(feature.properties.STATUS)
+				//
+				// }
+				// }).addTo(mymap);
+
+				var catchLayer = L.geoJson(catchments,{
+							style: function(feature){
+							return{ color: "#2166ac", weight: 2, fillColor: "#2166ac", fillOpacity: .3}
+							}
+				}).addTo(mymap);
+
+			lihLayer.bringToFront();
+
+			function onEachFeature(feature, layer) {
+			    // does this feature have a property named popupContent?
+			    if (feature.properties && feature.properties.UNITS) {
+			        layer.bindPopup(feature.properties.UNITS);
+			    }
+			}
+
+const Legend =  L.control.Legend({
+			 position: 'bottomleft',
+			 collapsed: false,
+			 symbolWidth: 30,
+			 opacity: 1,
+			 legends: [{
+					 label: "  Highest (<5414)",
+					 type: "rectangle",
+					 color: "#4d4d4d",
+					 fillColor: "#08519C",
+					 weight: 0.5
+			 },
+			 {
+					 label: "  High (<5119)",
+					 type: "rectangle",
+					 color: "#4d4d4d",
+					 fillColor: "#3182BD",
+					 weight: 0.5
+			 },{
+					 label: "  Median(<3885)",
+					 type: "rectangle",
+					 color: "#4d4d4d",
+					 fillColor: "#6BAED6",
+					 weight: 0.5
+			 },{
+					 label: "  Low (<2651)",
+					 type: "rectangle",
+					 color: "#4d4d4d",
+					 fillColor: "#BDD7E7",
+					 weight: 0.5
+			 },{
+					 label: "  Lowest (<1417)",
+					 type: "rectangle",
+					 color: "#4d4d4d",
+					 fillColor: "#EFF3FF",
+					 weight: 0.5
+			 },{
+					 label: "  Parks",
+					 type: "rectangle",
+					 color: "#4d4d4d",
+					 fillColor: "#41ae76",
+					 weight: 0.5
+			 }]
+		 })
+ .addTo(mymap);
+
+		</script>
+
+
+	</body>
+</html>
